@@ -1,0 +1,52 @@
+.user-details-form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    text-align: left;
+}
+.user-details-form h1{
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--color-black);
+    margin-bottom: 10px;
+}
+.user-details-form input {
+    border: none;
+    border-radius: 5px;
+    font-size: 12px ;
+    line-height: normal;
+    color: var(--color-gray);
+    background-color: var(--color-light-gray);
+    padding: 12px 7px;
+    margin: 10px 0 ;
+}
+.error-status{
+    display: inline-block;
+    font-size: 10px;
+    color: var(--color-red);
+}
+.user-details-form h3{
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--color-gray);
+    padding-top: 14px;
+}
+.anonymous {
+    display: inline-block;
+}
+.anonymous label{
+    color: var(--color-gray);
+    font-size: 10px;
+    vertical-align: middle;
+}
+
+
+.btn-container{
+    display: flex;
+    align-self: flex-end;
+    gap: 10px;
+    margin-top:20px;
+}

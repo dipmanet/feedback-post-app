@@ -1,0 +1,87 @@
+.feedback-form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    text-align: left;
+    padding: 5px;
+
+}
+.feedback-form>h1{
+    font-size: 20px;
+    font-weight: bold;
+    line-height: normal;
+    color: var(--color-black);
+    margin-bottom: 20px;
+}
+.feedback-form >h2{
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--color-black);
+}
+.feedback {
+    border: none;
+    border-radius: 5px;
+    font-size: 14px ;
+    line-height: normal;
+    height: 2
+    0px;
+    padding: 15px 8px;
+    color: var(--color-gray);
+    background-color: var(--color-light-gray);
+    margin-bottom: 10px ;
+}
+
+.screenshot {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-light-gray);
+    padding: 0px;
+}
+.screenshot .btn{
+    color: var(--color-gray);
+    background-color: var(--color-light-gray);
+    border: 1px solid var(--color-gray);
+    border-radius: 5px;
+    margin: 10px 20px;
+}
+
+
+.feedback-form h3{
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--color-gray);
+    padding-top: 14px;
+}
+
+
+
+.consent{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 30px 0;
+}
+.chkboxIsConsent {
+    display: inline-block;
+}
+.chkboxIsConsent label{
+    color: var(--color-gray);
+    font-size: 10px;
+    vertical-align: middle;
+}
+
+.btn-container{
+    display: flex;
+    align-self: flex-end;
+    gap: 10px;
+}
+
+
+.feedback-form .error-status{
+    color: var(--color-gray);
+}
+button.btn{
+    min-width: 8%;
+};
