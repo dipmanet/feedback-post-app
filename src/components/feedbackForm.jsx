@@ -1,6 +1,6 @@
 import './feedbackForm.css'
 import {useState} from 'react'
-import {FaInfoCircle} from 'react-icons/fa'
+// import {FaInfoCircle} from 'react-icons/fa'
 
 const FeedbackForm = (props) => {
   const [errors, setErrors] = useState({feedback:'', screenshot:''});
@@ -43,15 +43,28 @@ const FeedbackForm = (props) => {
     else if(data.feedback.length >150){E.feedback = 'Too long feedback'}
     else {E.feedback = ''}
 
-    if(data.screenshot.size > 2048000){ E.screenshot = <><FaInfoCircle />Please choose a file less than 2MB</>}
-    //--
+    if(!data.screenshot){E.screenshot='Please provide a screenshot'}
+    else {
+      const fsize = Math.round(data.screenshot.size / 1024)
+      const img = data.screenshot.name;
+      const imgExt = img.substring(img.lastIndexOf('.')+1);
+
+      console.log('image file size', fsize)
+      console.log( 'imag extension',imgExt)
+
+      if(imgExt !=='png' && imgExt !=='jpeg'){E.screenshot = 'Image extension '+ imgExt + 'is not supported. Only .png or .jpeg format are allowed.'}
+      else if(fsize > 3072){ E.screenshot = 'Image file, too big. Please choose a file less than 3MB'}
+      else {E.screenshot=''}
+    }
+  
+    //--------------------------------------------------
 
     if(E.feedback !== "" ||  E.screenshot !== ""){
       isValid = false;
     }
 
     console.log('form validation:', isValid)
-    console.log('during validation', E)
+    console.log('error State during validation ', E)
     setErrors(p=>({...E}));
     return isValid;
   }

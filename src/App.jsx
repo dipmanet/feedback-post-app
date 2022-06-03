@@ -77,6 +77,7 @@ const App = () => {
 
             const res = postToAPI(fd);
             console.log('Upload successfull', res);
+            window.alert('Upload successfull');
     }
 
     //-----------------exit all forms and close the modal box---------------
