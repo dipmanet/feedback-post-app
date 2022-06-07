@@ -3,6 +3,7 @@ import ModalBox from './components/modal-box.jsx'
 import UserDetailsForm from './components/userDetailsForm.jsx'
 import FeedbackForm from "./components/feedbackForm.jsx";
 
+
 // import axios from "axios";
 
 const App = () => {
@@ -60,7 +61,7 @@ const App = () => {
             {
             method: 'POST', 
             body: data
-          }).then(res=> res.json());
+          })
 
           return response;
     }
@@ -77,7 +78,7 @@ const App = () => {
 
             const res = postToAPI(fd);
             console.log('Upload successfull', res);
-            window.alert('Upload successfull');
+            // window.alert('Upload successfull');
     }
 
     //-----------------exit all forms and close the modal box---------------
@@ -98,13 +99,15 @@ const App = () => {
 
   return (
       <div>
-        <button id="btnRequestFeedback" className="btn" onClick={()=>setShowModalBox(true)}>Request Feedback Form</button>
+        <button id="btnRequestFeedback" className="btn" 
+                onClick={()=>showModalBox ? setShowModalBox(false): setShowModalBox(true)}>
+            Request Feedback Form
+        </button>
         {
             showModalBox ? 
                 <ModalBox body={ModalBoxContent} onCancel={handleCancelForm}/> 
                 :<></>
         }
-        
       </div> 
   )
 }

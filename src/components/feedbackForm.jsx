@@ -1,28 +1,39 @@
 import './feedbackForm.css'
 import {useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { updateData, updateError} from './feedbackSlice'
 // import {FaInfoCircle} from 'react-icons/fa'
 
 const FeedbackForm = (props) => {
-  const [errors, setErrors] = useState({feedback:'', screenshot:''});
+  // const [data, setData] = useState({feedback:'', screenshot:''});
+  // const [errors, setErrors] = useState({feedback:'', screenshot:''});
+
+  const dispatch = useDispatch()
+  const data = useSelector(state => state.feedbackData.data)
+  const errors = useSelector(state => state.feedbackData.errors)
+  const [isConsent, setIsConsent] = useState(false)
+
+
+  console.log('data from slice', data)
+  console.log('errors from slice', errors)
+
 
   const handleSubmit = async (e)=> {
     e.preventDefault();
 
-    //--------check if the chkboxIsConsent is checked------------
-    const isConsent = document.forms['formFeedback']['chkboxIsConsent'].checked;
-    if(!isConsent){
-      window.alert('You need to provide consent first.');
-      return;
-    }
-
-    const inputData = {
-      feedback: document.forms['formFeedback']['feedback'].value,
-      screenshot: document.forms['formFeedback']['imgScreenshot'].files[0]
-    }
-
-    if(validateForm(inputData)){
-      props.onFeedbackSubmit(inputData);
-      console.log('Feedback submitted successfully', inputData)
+    
+    
+    
+    if(validateForm()){
+      //--------check if the chkboxIsConsent is checked------------
+      if(!isConsent){
+        window.alert('You need to provide consent first.');
+        return;
+      }
+      //-------------pass feedback data up--------------------
+      props.onFeedbackSubmit(data);
+      console.log('Feedback submitted successfully', data)
+      window.alert('Thank you for your feedback.')
     }
   }
   //------------------------------------------------------
@@ -35,12 +46,12 @@ const FeedbackForm = (props) => {
   //-----------------------------------------------------
 
   //----------------validation code---------------------
-  const validateForm = data => {
+  const validateForm = () => {
     let isValid = true;
-    let E = errors;
+    let E = {...errors};
     //--
     if(data.feedback===''){ E.feedback = 'Please provide us your feedback.'}
-    else if(data.feedback.length >150){E.feedback = 'Too long feedback'}
+    else if(data.feedback.length >150){E.feedback = 'Too long   feedback'}
     else {E.feedback = ''}
 
     if(!data.screenshot){E.screenshot='Please provide a screenshot'}
@@ -65,7 +76,8 @@ const FeedbackForm = (props) => {
 
     console.log('form validation:', isValid)
     console.log('error State during validation ', E)
-    setErrors(p=>({...E}));
+    // setErrors(p=>({...E}));
+    dispatch(updateError({...E}))
     return isValid;
   }
 //-----------------------------------------------------------------
@@ -74,17 +86,26 @@ const FeedbackForm = (props) => {
     <form action="" id="formFeedback" className="feedback-form" onSubmit={handleSubmit}>
         <h1>Leave a feedback</h1>
         <h2>Kindly specify your feedback:</h2>
-        <textarea  id="feedback" cols="30" rows="10" className="feedback" placeholder='Please Specify..'></textarea>
+        <textarea value={data.feedback}  id="feedback" cols="30" rows="10" className="feedback" placeholder='Please Specify..'
+                onChange={(e)=>dispatch(updateData({...data, feedback: e.target.value}))}
+        />
+          
+        
         <p className='error-status'>{errors.feedback}</p>
 
         <h3>Attach the screenshot:</h3>
         <div className="screenshot">
-          <input id="imgScreenshot" type="file" accept="image/*" />
+          <input id="imgScreenshot" type="file" accept="image/*" 
+              onChange={(e)=>dispatch(updateData({...data, screenshot: e.target.files[0]}))}
+          />
         </div>
         <p className='error-status'>{errors.screenshot}</p>
 
+
+
         <div className='consent'>
-          <input type="checkbox" id="chkboxIsConsent" /> 
+          <input type="checkbox" id="chkboxIsConsent" checked={isConsent} 
+                onChange={()=> isConsent ? setIsConsent(false): setIsConsent(true)}/> 
           <label htmlFor="chkboxIsConsent">I hereby give my consent to store my personal details in BIPAD portal.</label>
         </div>
         <div className="btn-container">

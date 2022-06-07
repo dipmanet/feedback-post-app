@@ -1,31 +1,36 @@
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import './userDetailsForm.css'
+import { useSelector, useDispatch} from 'react-redux';
+import { updateUserDetails, updateError } from './userDetailsSlice';
 
 const UserDetailsForm = (props) => {
-  const userInitialState = {
-    full_name:"",
-    designation:"", 
-    name_of_the_institution: "", 
-    email:""
-  };
-  const [userDetails, setUserDetails] = useState(userInitialState);
-  const [errors, setErrors] = useState({full_name:"",designation:"", name_of_the_institution: "", email:""});
-  const [Anonymous, setAnonymous] = useState(false);
+
+  const dispatch = useDispatch()
+
+  const userDetails = useSelector(state => state.userDetails.userDetails )
+  const errors = useSelector(state => state.userDetails.errors)
+  const Anonymous = userDetails.is_anonymous
+
 
   useEffect(()=>{
     if(Anonymous){
-      setUserDetails({full_name:"",designation:"", name_of_the_institution: "", email:"", is_anonymous:true})
-      setErrors({full_name:"",designation:"", name_of_the_institution: "", email:""})
+      // setUserDetails({full_name:"",designation:"", name_of_the_institution: "", email:"", is_anonymous:true})
+      // setErrors({full_name:"",designation:"", name_of_the_institution: "", email:""})
+      dispatch(updateUserDetails({full_name:"",designation:"", name_of_the_institution: "", email:"", is_anonymous:true}))
+      dispatch(updateError({full_name:"",designation:"", name_of_the_institution: "", email:""}))
     }
   }, [Anonymous])
 
+
+
+  
 
   //----------------called on submission-----------------
   const handleSubmit =  async (e) => {
     e.preventDefault();
 
-    if(validateForm()|| Anonymous){
-      console.log('data referennced to App.jsx :', userDetails)
+    if(validateForm() || Anonymous){
+      console.log('data referennced to App.jsx, Anonymous :', Anonymous, userDetails)
       props.onUserDetailsSubmit(userDetails)
     }
   }
@@ -33,9 +38,9 @@ const UserDetailsForm = (props) => {
 
   //------------------code for Validation---------------------
   const validateForm = ()=> {
-    
-    let U = userDetails;
-    let E = errors;
+    console.log('parameter passed', userDetails)
+    let U = {...userDetails};
+    let E = {...errors};
     let isValid = true;
     const pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
 
@@ -74,7 +79,9 @@ const UserDetailsForm = (props) => {
     console.log('form validation:', isValid)
     console.log('during validation', E)
 
-    setErrors(p=>({...E}));
+    // setErrors(p=>({...E}));
+    dispatch(updateError({...E}))
+
     return isValid;
   }
 
@@ -86,31 +93,34 @@ const UserDetailsForm = (props) => {
       <input type="text" id="full_name" disabled={Anonymous} 
             placeholder='Full Name' 
             value={userDetails.full_name}
-            onChange={(e)=>setUserDetails(p=>({...p, full_name: e.target.value}))} />
+            onChange={(e)=>dispatch(updateUserDetails({...userDetails, full_name: e.target.value}))} />
       <p className="error-status">{errors.full_name}</p>
 
       <input type="text" id="designation" disabled={Anonymous} 
             placeholder='Designation(eg.IT Officer)' 
             value={userDetails.designation}
-            onChange={(e)=>setUserDetails(p=>({...p, designation: e.target.value}))} />
+            onChange={(e)=>dispatch(updateUserDetails({...userDetails, designation: e.target.value} ))} />
       <p htmlFor="designation" className="error-status">{errors.designation}</p>
 
       <input type="text" id="name_of_the_institution" disabled={Anonymous} 
             placeholder='Name of the Institution'  
             value={userDetails.name_of_the_institution}
-            onChange={(e)=>setUserDetails(p=>({...p, name_of_the_institution: e.target.value}))} />
+            onChange={(e)=>dispatch(updateUserDetails({...userDetails, name_of_the_institution: e.target.value} ))} />
+
       <p className="error-status">{errors.name_of_the_institution}</p>
       
       <input type="email" id="email" disabled={Anonymous} 
             placeholder='Official Email' 
             value={userDetails.email}
-            onChange={(e)=>setUserDetails(p=>({...p, email: e.target.value}))} />
+            onChange={(e)=>dispatch(updateUserDetails({...userDetails, email: e.target.value} ))} />
+
       <p  className="error-status">{errors.email}</p>
 
       <h3>Select ANONYMOUS if you do not want to provide your personal details.</h3>
       <div className='anonymous'>
         <input type="checkbox" id="is_anonymous" checked={Anonymous}
-           onChange={()=> Anonymous ? setAnonymous(false): setAnonymous(true)}/>
+           onChange={()=> Anonymous ? dispatch(updateUserDetails({...userDetails, is_anonymous: false}))
+                                    : dispatch(updateUserDetails({...userDetails, is_anonymous: true})) }/>
         <label htmlFor="is_anonymous">Anonymous</label>
       </div>
 
