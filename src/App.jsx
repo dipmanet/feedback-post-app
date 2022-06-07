@@ -57,13 +57,17 @@ const App = () => {
     //--------------send post request to BIPAD API-----------------------------
     const postToAPI = async (data)=> {
         const url = "https://bipaddev.yilab.org.np/api/v1/feedback/";
-        const response = await fetch( url, 
+        await fetch( url, 
             {
             method: 'POST', 
             body: data
+          }).then(res => {
+              console.log('Feedback Submitted Successfully', res.data)
+              window.alert('Feedback Submitted Successfully \n', res.data)
+          }).catch(err=>{
+              console.log('error occurred', err)
+              window.alert('error occured \n', err)
           })
-
-          return response;
     }
     //---------------post the feedback object -----------------------------------
     const postFeedback = async ()=> {
@@ -76,9 +80,7 @@ const App = () => {
             fd.append('feedback', feedback.feedback);
             fd.append('screenshot', feedback.screenshot, feedback.screenshot.name);
 
-            const res = postToAPI(fd);
-            console.log('Upload successfull', res);
-            // window.alert('Upload successfull');
+            postToAPI(fd);
     }
 
     //-----------------exit all forms and close the modal box---------------
