@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import './userDetailsForm.css'
 import { useSelector, useDispatch} from 'react-redux';
 import { updateUserDetails, updateError } from './userDetailsSlice';
@@ -9,19 +9,17 @@ const UserDetailsForm = (props) => {
 
   const userDetails = useSelector(state => state.userDetails.userDetails )
   const errors = useSelector(state => state.userDetails.errors)
-  const Anonymous = userDetails.is_anonymous
+  const [Anonymous,setIsAnonymous] = useState(false)
 
 
-  useEffect(()=>{
-    if(Anonymous){
-      // setUserDetails({full_name:"",designation:"", name_of_the_institution: "", email:"", is_anonymous:true})
-      // setErrors({full_name:"",designation:"", name_of_the_institution: "", email:""})
+  const handleAnonymous = (e) =>{
+    setIsAnonymous(!Anonymous)
+    if(!Anonymous){
       dispatch(updateUserDetails({full_name:"",designation:"", name_of_the_institution: "", email:"", is_anonymous:true}))
       dispatch(updateError({full_name:"",designation:"", name_of_the_institution: "", email:""}))
     }
-  }, [Anonymous])
-
-
+    console.log('Anonymous', Anonymous)
+  }
 
   
 
@@ -119,8 +117,7 @@ const UserDetailsForm = (props) => {
       <h3>Select ANONYMOUS if you do not want to provide your personal details.</h3>
       <div className='anonymous'>
         <input type="checkbox" id="is_anonymous" checked={Anonymous}
-           onChange={()=> Anonymous ? dispatch(updateUserDetails({...userDetails, is_anonymous: false}))
-                                    : dispatch(updateUserDetails({...userDetails, is_anonymous: true})) }/>
+           onChange={handleAnonymous}/>
         <label htmlFor="is_anonymous">Anonymous</label>
       </div>
 

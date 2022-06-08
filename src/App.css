@@ -1,0 +1,8 @@
+.app-navbar{
+    display: flex;
+    justify-content: center;
+}
+.app-navbar li{
+    margin: 5px 0;
+    padding: 5px;
+}

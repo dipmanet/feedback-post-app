@@ -2,7 +2,6 @@ import './feedbackForm.css'
 import {useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { updateData, updateError} from './feedbackSlice'
-// import {FaInfoCircle} from 'react-icons/fa'
 
 const FeedbackForm = (props) => {
   // const [data, setData] = useState({feedback:'', screenshot:''});
