@@ -1,12 +1,12 @@
 import {useState, useEffect} from "react"
-import ModalBox from './modal-box.jsx'
-import UserDetailsForm from './userDetailsForm.jsx'
-import FeedbackForm from "./feedbackForm.jsx";
+import { Navigate, useNavigate } from "react-router-dom";
+import ModalBox from '../components/modal-box.jsx'
+import UserDetailsForm from '../components/userDetailsForm.jsx'
+import FeedbackForm from "../components/feedbackForm.jsx";
 
-
-// import axios from "axios";
 
 const Feedback = () => {
+    const navigate = useNavigate()
     const [feedback, setFeedback] = useState({
         full_name: 'test',
         designation: 'test',
@@ -16,7 +16,6 @@ const Feedback = () => {
         feedback: 'test',
         screenshot: null 
     });
-
     const [isUserDetailsSubmitted, setIsUserDetailsSubmitted] = useState(false);
     const [isUpdateReady, setIsUpdateReady] = useState(false);
     const [showModalBox, setShowModalBox]= useState(true);
@@ -49,6 +48,8 @@ const Feedback = () => {
 
         setShowModalBox(false);
         setIsUserDetailsSubmitted(false);
+
+        navigate('/')
 
 
     }
@@ -86,6 +87,9 @@ const Feedback = () => {
     const handleCancelForm = () =>{
         setIsUserDetailsSubmitted(false);
         setShowModalBox(false);
+
+        navigate('/')
+
     }
 
     //-------content for the modalbox, based on isUserDetailsSubmitted.-----------

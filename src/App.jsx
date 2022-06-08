@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom'
-import Homepage from './components/homepage.jsx'
-import Feedback from './components/feedback.jsx'
+import Homepage from './routes/homepage.jsx'
+import Feedback from './routes/feedback.jsx'
 import './App.css'
 
 

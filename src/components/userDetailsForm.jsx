@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import './userDetailsForm.css'
 import { useSelector, useDispatch} from 'react-redux';
 import { updateUserDetails, updateError } from './userDetailsSlice';
